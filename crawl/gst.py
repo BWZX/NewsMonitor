@@ -48,14 +48,26 @@ while True:
             first +=1
         else:
             break
-        
-    for i in range(len(ll)):
-        print('div.CalendarCon tr td:nth-child('+str(i+first)+') a')
-        s.click('div.CalendarCon tr td:nth-child('+str(i+first)+') a', btn=0)
+
+    for i in range(first,8):
+        s.click('div.CalendarCon div table tbody tr td:nth-of-type('+str(i)+') a', btn=0)
         s.wait_for_page_loaded()
         s.show()
-        crawl_page(s)
+        # crawl_page(s)
         s.sleep(5)
+    gg=6-first
+    for i in range(2,len(ll)-gg):
+        # print('div.CalendarCon div tbody tr td:nth-child(' + str(i) + ') a')
+        s.click('div.CalendarCon div table tbody tr:nth-child('+str(i)+') td a', btn=0)
+        s.wait_for_page_loaded()
+        s.show()
+        # crawl_page(s)
+        s.sleep(5)
+    
+    s.click('div.CalendarHead table tbody tr td:nth-child(2) a', 0)
+    s.wait_for_page_loaded()
+    s.show()
+    s.sleep(5)
     
 
     #if no next page, click next date, and then call itself.
