@@ -1,5 +1,9 @@
 from ghost import Ghost
 from pyquery import PyQuery as pq
+from mongoconnect import *
+
+KEY_WORD = 'news'
+exec('database=db_'+KEY_WORD)
 
 g=Ghost()
 s=g.start(display=True)
@@ -16,7 +20,8 @@ def crawl_page(s):
         subclass = li('a strong').text()
         title = li('a span.txt').text()
         time = li('a span.time').text()
-        cell.append([subclass, title, href, time])
+        cell.append({'_id': 'hash value','subcls': subclass, 'title': title, 'time': time, 'href': href})
+    database.insert(cell)
     # print(cell)
     #if it has next page, into next    
     if s.exists('li a.next'):
@@ -30,7 +35,7 @@ def crawl_page(s):
     
     pass
 
-s.open('http://news.qq.com/articleList/rolls/')
+s.open('http://'+KEY_WORD+'.qq.com/articleList/rolls/')
 # s.content.encode('utf-8')
 # print(s.content)
 while True:   
