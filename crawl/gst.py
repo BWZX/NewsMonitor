@@ -8,21 +8,26 @@ exec('database=db_'+KEY_WORD)
 
 g=Ghost()
 s=g.start(display=True)
+checkset=set()
 
 def crawl_page(s):
     #select data
     ct = s.content
     d=pq(ct)
-    ul = d('div.listInfo ul.titMode')
-    cell=[]
+    ul = d('div.listInfo ul.titMode')    
     print('crawl page ing')
+    cell = []
     for li in ul('li').items():
         href = li('a').attr('href')
         title = li('a span.txt').text()
         time = li('a span.time').text()
         print(time)
-        cell.append({'_id': hashlib.md5((title+time).encode()).hexdigest(), 'title': title, 'time': time, 'href': href})
-    database.insert(cell)
+        hashid = hashlib.md5((title+time).encode()).hexdigest()
+        tem_len = len(checkset)
+        checkset.add(hashid)
+        if len(checkset) > tem_len:
+            cell.append({'_id': hashid, 'title': title, 'time': time, 'href': href})
+    
     # print(cell)
     #if it has next page, into next    
     if s.exists('li a.next'):
@@ -30,9 +35,10 @@ def crawl_page(s):
         print('next page of the date')
         s.wait_for_page_loaded()
         s.show()
-        crawl_page(s)
-    else:
-        return
+        subcell = crawl_page(s)
+        cell = cell + subcell
+    
+    return cell
     
     pass
 
@@ -60,7 +66,9 @@ while True:
         s.wait_for_page_loaded()
         s.sleep(2)
         s.show()
-        crawl_page(s)
+        newslist=crawl_page(s)
+        if len(newslist) >0:
+            database.insert(newslist)
         
     gg=6-first
     for i in range(2,len(ll)-gg):
@@ -69,12 +77,15 @@ while True:
         s.wait_for_page_loaded()
         s.sleep(2)
         s.show()
-        crawl_page(s)
+        newslist=crawl_page(s)
+        if len(newslist) >0:
+            database.insert(newslist)
         
     
     s.click('div.CalendarHead table tbody tr td:nth-child(2) a', 0)    
     s.wait_for_page_loaded()
-    s.sleep(3)
+    s.sleep(2)
+    print('go to next day.')
     s.show()
     
     
