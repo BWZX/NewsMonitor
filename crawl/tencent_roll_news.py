@@ -18,7 +18,7 @@ def fetchData(item):
         ts = str(result.read(),encoding='gbk')
         d=pq(ts)
         d=d('div#content')
-        head = d('div.hd h1')
+        head = d('div.hd h1').text()
         clas = d('div.a_Info span.a_catlog').text()
         source = d('div.a_Info span.a_source').text()
         time = d('div.a_Info span.a_time').text()        
