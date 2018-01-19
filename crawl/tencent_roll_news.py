@@ -22,7 +22,7 @@ def fetchData(item):
         clas = d('div.a_Info span.a_catlog').text()
         source = d('div.a_Info span.a_source').text()
         time = d('div.a_Info span.a_time').text()        
-        body = d('div.qq_article div#Cnt-Main-Article-QQ').text()        
+        body = d('div#Cnt-Main-Article-QQ p').text()        
         print(time,'  ',clas, '   ',source,'  ',head)
         newhashid = hashlib.md5((head+time).encode()).hexdigest()
         print(body)
