@@ -28,7 +28,11 @@ def fetchData(item):
         print(body)
         #mongo updata class and source,
         database.update({'_id': item['_id']}, {'$set':{'source': source, 'category': clas, 'time': time}})
-        client.write('/'+KEY_WORD + '/'+ str(newhashid), data=body, encoding='utf-8')
+        try:
+            client.write('/'+KEY_WORD + '/'+ str(newhashid), data=body, encoding='utf-8')
+        except Exception:
+            pass
+        
     else:
         print('request fail.')
         return 
