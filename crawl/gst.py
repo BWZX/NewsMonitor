@@ -1,3 +1,6 @@
+#!/usr/bin/python  
+# -*- coding: utf-8 -*-  
+
 from ghost import Ghost
 from pyquery import PyQuery as pq
 from mongoconnect import *

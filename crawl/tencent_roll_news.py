@@ -1,3 +1,6 @@
+#!/usr/bin/python  
+# -*- coding: utf-8 -*-  
+
 import urllib, urllib.request
 from pyquery import PyQuery as pq
 from mongoconnect import *

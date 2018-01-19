@@ -1,3 +1,6 @@
+#!/usr/bin/python  
+# -*- coding: utf-8 -*-  
+
 import pymongo
 from pymongo import MongoClient
 __client = MongoClient('mongodb://admin:%2B@node0:27017')
