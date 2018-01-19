@@ -21,13 +21,14 @@ def fetchData(item):
         head = d('div.hd h1')
         clas = d('div.a_Info span.a_catlog').text()
         source = d('div.a_Info span.a_source').text()
-        time = d('div.a_Info span.a_time').text()
-        print(time)
-        body = d('div#Cnt-Main-Article-QQ').text()
-        hashid=hashlib.md5((item['title']+item['time']).encode()).hexdigest()
+        time = d('div.a_Info span.a_time').text()        
+        body = d('div.qq_article div#Cnt-Main-Article-QQ').text()
+        newhashid = hashlib.md5((head+time).encode()).hexdigest()
+        print(time,'  ',clas, '   ',source,'  ',head)
+        print(body)
         #mongo updata class and source,
-        database.update({'_id': hashid}, {'$set':{'source': source, 'category': clas, 'time': time}})
-        client.write('/'+KEY_WORD + '/'+ str(hashid), data=body, encoding='utf-8')
+        database.update({'_id': item['_id']}, {'$set':{'source': source, 'category': clas, 'time': time}})
+        client.write('/'+KEY_WORD + '/'+ str(newhashid), data=body, encoding='utf-8')
     else:
         print('request fail.')
         return 
