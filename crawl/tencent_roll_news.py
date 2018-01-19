@@ -4,11 +4,10 @@
 import urllib, urllib.request
 from pyquery import PyQuery as pq
 from mongoconnect import *
-from hdfs.client import Client
 import hashlib
+from hdfs import Config
 
-client = Client("http://node0:50070")  # 50070: Hadoop默认namenode
-
+client = Config().get_client('dev')
 KEY_WORD = 'news'
 exec('database=db_'+KEY_WORD)
 
