@@ -5,9 +5,10 @@ import urllib, urllib.request
 from pyquery import PyQuery as pq
 from mongoconnect import *
 import hashlib
-from hdfs import Config
 
+from hdfs import Config
 client = Config().get_client('dev')
+
 KEY_WORD = 'news'
 exec('database=db_'+KEY_WORD)
 
@@ -40,4 +41,8 @@ def fetchData(item):
 if __name__ == '__main__':
     for it in database.find():
         print(it)
-        fetchData(it)
+        try:
+            fetchData(it)
+        except Exception:
+            pass
+        
